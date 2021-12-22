@@ -25,7 +25,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.route('/').get((req, res) => {
-  // Change the response to render the Pug template
   res.render(process.cwd() + '/views/pug/index', { title: 'Hello', message: 'Please login' });
 });
 
