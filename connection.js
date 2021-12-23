@@ -1,6 +1,8 @@
 // Do not change this file
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
+const { authenticate } = require('passport');
+const { resourceLimits } = require('worker_threads');
 
 async function main(callback) {
     const URI = process.env.MONGO_URI; // Declare MONGO_URI in your .env file
@@ -8,7 +10,12 @@ async function main(callback) {
 
     try {
         // Connect to the MongoDB cluster
-        await client.connect();
+        await client.connect(URI, (error, db) => {
+            if (error) return console.log(error);
+
+            authenticate(app, db);
+            resourceLimits(app, db);
+        });
 
         // Make the appropriate DB calls
         await callback(client);
