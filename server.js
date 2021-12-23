@@ -28,14 +28,18 @@ app.use(passport.session());
 
 myDB(async (client) => {
   const myDataBase = await client.db('database').collection('users');
+
+  //Homepage
   app.route('/').get((req, res) => {
     res.render('pug', {
       title: 'Connected to Database',
       message: 'Please login',
-      showLogin: true
+      showLogin: true,
+      showRegistration: true
     });
   });
 
+  //Login
   app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
     res.redirect('/profile');
   });
@@ -44,6 +48,7 @@ myDB(async (client) => {
     res.render(process.cwd() + '/views/pug/profile', { username: req.user.username });
   });
 
+  //Logout
   app.route('/logout')
   .get((req, res) => {
     req.logout();
@@ -55,6 +60,34 @@ app.use((req, res, next) => {
     .type('text')
     .send('Not Found');
 });
+
+//Registration
+app.route('/register').post((re, res, next) => {
+  myDataBase.findOne({username: req.body.username}, (err, user) => {
+    if (err) {
+      next(err);
+    }else if (user) {
+      res.redirect('/');
+    }else {
+      myDataBase.insertOne({
+        username: req.body.username,
+        password: req.body.password
+      },
+      (err, doc) => {
+        if (err) {
+          res.redirect('/');
+        }else {
+          next(null, doc.ops[0]);
+        }
+      });
+    }
+  });
+},
+passport.authenticate('local', {failureRedirect: '/'}), (req, res) => {
+  res.redirect('/profile');
+}
+);
+
 
   // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
