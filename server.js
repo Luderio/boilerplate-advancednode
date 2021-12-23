@@ -39,7 +39,7 @@ myDB(async (client) => {
 
   //Template Engine - Lesson 2: Use a Template Engine's Powers
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + 'pug', 
+    res.render(process.cwd() + '/views/pug/', 
     {
       title: 'Connected to the Database',
       message: 'Please login',
@@ -79,7 +79,7 @@ myDB(async (client) => {
   
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + 'pug', { title: e, message: 'Unable to login' });
+    res.render(process.cwd() + '/views/pug/', { title: e, message: 'Unable to login' });
   });
 });
 //----------------------------------------------------------------------------------------
