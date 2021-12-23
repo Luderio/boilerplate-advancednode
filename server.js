@@ -28,6 +28,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirectt('/');
+}
+
 //Query search for a Mongo DB Id
 const ObjectID = require('mongodb').ObjectID;
 
@@ -51,8 +58,10 @@ myDB(async (client) => {
     res.redirect('/profile');
   });
   
-  app.route('/profile').get((req, res) => {
-    res.render(process.cwd() + '/views/pug/profile');
+  
+  //Lesson 7: Create New Middleware - ensureAuthenticated is a middleware
+  app.route('/profile').get(ensureAuthenticated, (req, res) => {
+    res.render(process.cwd() + '/views/pug/profile')
   });
 
   //Lesson4: Serialization of a User Object
@@ -76,19 +85,6 @@ myDB(async (client) => {
       });
     }
   ));
-
-  //Lesson 7: Create New Middleware
-  function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirectt('/');
-  }
-
-  app.route('/profile').get(ensureAuthenticated, (req, res) => {
-    res.render(process.cwd() + '/views/pug/profile')
-  });
-  
   
 }).catch((e) => {
   app.route('/').get((req, res) => {
@@ -96,6 +92,9 @@ myDB(async (client) => {
   });
 });
 //----------------------------------------------------------------------------------------
+
+
+
 app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port ' + process.env.PORT);
 });
