@@ -45,7 +45,7 @@ myDB(async (client) => {
   });
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render('pug', { title: e, message: 'Unable to login' });
+    res.render(res.render(process.cwd() + '/views/pug', { title: e, message: 'Unable to login' });
   });
 });
 
