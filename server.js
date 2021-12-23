@@ -14,7 +14,7 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mySecret = process.env['SESSION_SECRET']//this code is used for replit as .env file is disabled in replit. 
+const mySecret = process.env['SESSION_SECRET']//this code is used for replit as .env file is disabled in replit. use: process.env.SESSION_SECRET for real code
 
 app.use(session({
   secret: mySecret,
