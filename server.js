@@ -6,7 +6,6 @@ const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const session = require('express-session');
 const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID;
-const mongoose = require('mongoose');
 
 const app = express();
 app.set('view engine', 'pug');
@@ -25,18 +24,13 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-//-------------------
-
-mongoose.connect(process.env.MONGO_URI, {userNewUrlParser: true, useUnifiedTopology: true});
-
-//-------------------
 
 myDB(async (client) => {
   const myDataBase = await client.db('database').collection('users');
 
   app.route('/').get((req, res) => {
     res.render(process.cwd() + '/views/pug/index', {
-      title: 'Connected to Database',
+      title: 'Success',
       message: 'Please login'
     });
   });
