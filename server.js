@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 });
 
 //Registration
-app.route('/register').post((re, res, next) => {
+app.route('/register').post((req, res, next) => {
   myDataBase.findOne({username: req.body.username}, (err, user) => {
     if (err) {
       next(err);
