@@ -41,7 +41,7 @@ myDB(async (client) => {
 
   //Login
   app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-    res.redirect('/views/pug/profile');
+    res.redirect('/profile');
   });
 
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
