@@ -23,6 +23,10 @@ module.exports = function (app, myDataBase) {
       res.render(process.cwd() + '/views/pug/profile', { username: req.user.username });
     });
 
+    app.route('/chat').get(ensureAuthenticated, (request, response) => {
+      response.render(process.cwd() + '/views/pug/chat.pug', { user: req.user })
+    });
+
     //Logout
     app.route('/logout')
     .get((req, res) => {
@@ -63,8 +67,11 @@ module.exports = function (app, myDataBase) {
 
   app.route('/auth/github').get(passport.authenticate('github'));
   app.route('/auth/github/callback').get(passport.authenticate('github', {failureRedirect: '/'}), (request, response) => {
-    response.redirect('/profile');
+    request.session.user_id = request.user.id;
+    response.redirect('/chat');
   });
+
+  
 
   //code for the file not found.
   app.use((req, res, next) => {
