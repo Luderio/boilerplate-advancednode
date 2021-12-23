@@ -29,7 +29,7 @@ myDB(async (client) => {
   const myDataBase = await client.db('database').collection('users');
 
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + '/views/pug/index', {
+    res.render(process.cwd() + '/views/pug', {
       title: 'Success',
       message: 'Please login'
     });
