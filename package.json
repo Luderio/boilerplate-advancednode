@@ -20,7 +20,8 @@
     "passport": "~0.4.1",
     "express-session": "~1.17.1",
     "mongoose": "^5.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "bcrypt": "~5.0.0"
   },
   "repository": {
     "type": "git",
