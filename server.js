@@ -6,6 +6,7 @@ const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const session = require('express-session');
 const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID;
+const MongoClient = require('mongodb/lib/mongo_client');
 
 const app = express();
 app.set('view engine', 'pug');
@@ -24,6 +25,11 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+//-------------------
+
+MongoClient.connect(process.env.MONGO_URI, {userNewUrlParser: true, useUnifiedTopology: true});
+
+//-------------------
 
 myDB(async (client) => {
   const myDataBase = await client.db('database').collection('users');
