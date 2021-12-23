@@ -31,7 +31,7 @@ myDB(async (client) => {
 
   //Homepage
   app.route('/').get((req, res) => {
-    res.render('pug', {
+    res.render(process.cwd() + '/views/pug', {
       title: 'Connected to Database',
       message: 'Please login',
       showLogin: true,
@@ -41,7 +41,7 @@ myDB(async (client) => {
 
   //Login
   app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-    res.redirect('/profile');
+    res.redirect('/views/pug/profile');
   });
 
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
@@ -112,7 +112,7 @@ passport.authenticate('local', {failureRedirect: '/'}), (req, res) => {
   // Be sure to add this...
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render('pug', { title: e, message: 'Unable to login' });
+    res.render(process.cwd() + '/views/pug', { title: e, message: 'Unable to login' });
   });
 });
 
