@@ -39,7 +39,7 @@ myDB(async (client) => {
 
   //Template Engine - Lesson 2: Use a Template Engine's Powers
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + '/views/pug/', 
+    res.render(process.cwd() + '/views/pug', 
     {
       title: 'Connected to the Database',
       message: 'Please login',
@@ -76,10 +76,23 @@ myDB(async (client) => {
       });
     }
   ));
+
+  //Lesson 7: Create New Middleware
+  function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirectt('/');
+  }
+
+  app.route('/profile').get(ensureAuthenticated, (req, res) => {
+    res.render(process.cwd() + '/views/pug/profile')
+  });
+  
   
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + '/views/pug/', { title: e, message: 'Unable to login' });
+    res.render(process.cwd() + '/views/pug', { title: e, message: 'Unable to login' });
   });
 });
 //----------------------------------------------------------------------------------------
