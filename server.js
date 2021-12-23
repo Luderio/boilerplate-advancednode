@@ -39,11 +39,20 @@ myDB(async (client) => {
 
   //Template Engine - Lesson 2: Use a Template Engine's Powers
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + '/views/pug', 
+    res.render(process.cwd() + 'pug', 
     {
       title: 'Connected to the Database',
-      message: 'Please login'
+      message: 'Please login',
+      showLogin: true
     });
+  });
+
+  app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+    res.redirect('/profile');
+  });
+  
+  app.route('/profile').get((req, res) => {
+    res.render(process.cwd() + '/views/pug/profile');
   });
 
   //Lesson4: Serialization of a User Object
@@ -70,7 +79,7 @@ myDB(async (client) => {
   
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render(process.cwd() + '/views/pug/index.pug', { title: e, message: 'Unable to login' });
+    res.render(process.cwd() + 'pug', { title: e, message: 'Unable to login' });
   });
 });
 //----------------------------------------------------------------------------------------
