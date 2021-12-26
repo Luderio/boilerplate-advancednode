@@ -29,6 +29,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+let socket = io();
+
 myDB(async (client) => {
   //this line creates a database called 'database' and creates a table called users.
   const myDataBase = await client.db('database').collection('users'); 
