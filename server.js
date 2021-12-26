@@ -29,7 +29,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-let socket = io();
+let socket = io;
 
 myDB(async (client) => {
   //this line creates a database called 'database' and creates a table called users.
