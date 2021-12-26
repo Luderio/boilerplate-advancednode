@@ -15,6 +15,8 @@ module.exports = function (app, myDataBase) {
       done(null, doc);
     });
   });
+
+  //Local Strategy used for the manual/local registration.
   passport.use(new LocalStrategy(
     function(username, password, done) {
       myDataBase.findOne({ username: username }, function (err, user) {
@@ -27,6 +29,7 @@ module.exports = function (app, myDataBase) {
     }
   ));
 
+  //GitHub Strategy for Social Login/Registration.
   passport.use(new GithubStrategy ({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,

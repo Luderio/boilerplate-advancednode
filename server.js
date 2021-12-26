@@ -30,12 +30,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 myDB(async (client) => {
-  const myDataBase = await client.db('database').collection('users');
+  //this line creates a database called 'database' and creates a table called users.
+  const myDataBase = await client.db('database').collection('users'); 
 
   routes(app, myDataBase);
   auth(app, myDataBase);
 
+  let currentUsers = 0;
+
+  //Socket.io connection listener.
   io.on('connection', (socket) => {
+    ++currentUsers;//incrementer for the counter.
+    io.emit('user count', currentUsers);
     console.log('A user has connected');
   });
 

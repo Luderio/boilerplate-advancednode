@@ -67,13 +67,12 @@ module.exports = function (app, myDataBase) {
   }
   );
 
+  //Registraction via GitHub account.
   app.route('/auth/github').get(passport.authenticate('github'));
   app.route('/auth/github/callback').get(passport.authenticate('github', {failureRedirect: '/'}), (request, response) => {
     request.session.user_id = request.user.id;
     response.redirect('/chat');
   });
-
-  
 
   //code for the file not found.
   app.use((req, res, next) => {
