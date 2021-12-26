@@ -17,7 +17,7 @@ const passportSocketIo = require('passport.socketio');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
 const URI = process.env.MONGO_URI;
-const store = new MongoStrore({url: URI});
+const store = new MongoStore({url: URI});
 
 fccTesting(app); // For fCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
