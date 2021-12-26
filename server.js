@@ -60,7 +60,11 @@ myDB(async (client) => {
   //Socket.io connection listener.
   io.on('connection', (socket) => {
     ++currentUsers;//incrementer for the counter.
-    io.emit('user count', currentUsers);
+    io.emit('user', {
+      name: socket.request.user.name,
+      currentUsers,
+      connected: true
+    });
     console.log('A user has connected');
     console.log('user ' + socket.request.user.username + ' connected');
 
@@ -68,7 +72,11 @@ myDB(async (client) => {
     socket.on('disconnect', () => {
       console.log("the user has disconnected.");
       --currentUsers;
-      io.emit('user count', currentUsers);
+      io.emit('user', {
+        name: socket.request.user.name,
+        currentUsers,
+        connected: false
+      });
     });
   });
 
