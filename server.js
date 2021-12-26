@@ -45,6 +45,13 @@ myDB(async (client) => {
     console.log('A user has connected');
   });
 
+  //event listener for the users who disconnects.
+  socket.on('disconnect', () => {
+    console.log("the user has disconnected.");
+    --currentUsers;
+    io.emit('user count', currentUsers);
+  });
+
 }).catch((e) => {
   app.route('/').get((req, res) => {
     res.render(process.cwd() + '/views/pug', { title: e, message: 'Unable to login' });

@@ -2,6 +2,7 @@ $(document).ready(function () {
     /*global io*/
   let socket = io();
 
+  //event listerner for the users who connects.
   socket.on('user count', (data) => {
     console.log(data);
   });
